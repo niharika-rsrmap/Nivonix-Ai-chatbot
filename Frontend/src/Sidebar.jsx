@@ -18,7 +18,8 @@ function Sidebar() {
     const getAllThreads = async () => {
         try {
             const authToken = localStorage.getItem('authToken');
-            const response = await fetch("http://localhost:8080/api/chat/thread", {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+            const response = await fetch(`${apiUrl}/api/chat/thread`, {
                 headers: {
                     "Authorization": `Bearer ${authToken}`
                 }
@@ -54,7 +55,8 @@ function Sidebar() {
         setCurrThreadId(newThreadId);
         try {
             const authToken = localStorage.getItem('authToken');
-            const response = await fetch(`http://localhost:8080/api/chat/thread/${newThreadId}`, {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+            const response = await fetch(`${apiUrl}/api/chat/thread/${newThreadId}`, {
                 headers: {
                     "Authorization": `Bearer ${authToken}`
                 }
@@ -71,7 +73,8 @@ function Sidebar() {
     const deleteThread = async (threadId) => {
         try {
             const authToken = localStorage.getItem('authToken');
-            const response = await fetch(`http://localhost:8080/api/chat/thread/${threadId}`, {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+            const response = await fetch(`${apiUrl}/api/chat/thread/${threadId}`, {
                 method: "DELETE",
                 headers: {
                     "Authorization": `Bearer ${authToken}`

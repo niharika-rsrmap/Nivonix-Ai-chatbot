@@ -33,11 +33,12 @@ function App() {
     const checkExistingUser = async () => {
       const storedUser = localStorage.getItem('user');
       const authToken = localStorage.getItem('authToken');
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
       if (storedUser && authToken) {
         try {
           // Verify token is still valid
-          const response = await fetch('http://localhost:8080/api/auth/verify', {
+          const response = await fetch(`${apiUrl}/api/auth/verify`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -73,7 +74,8 @@ function App() {
   const handleGoogleSignUp = async (googleToken) => {
     try {
       console.log('Sending Google token to backend...');
-      const response = await fetch('http://localhost:8080/api/auth/google', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+      const response = await fetch(`${apiUrl}/api/auth/google`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -55,7 +55,8 @@ function ChatWindow() {
 
         try {
             console.log("Sending chat request with token:", authToken.substring(0, 20) + "...");
-            const response = await fetch("http://localhost:8080/api/chat", options);
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+            const response = await fetch(`${apiUrl}/api/chat`, options);
             
             if (!response.ok) {
                 const errorText = await response.text();
@@ -132,7 +133,8 @@ function ChatWindow() {
 
         try {
             console.log('Uploading files:', files.length);
-            const response = await fetch('http://localhost:8080/api/upload/upload', {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+            const response = await fetch(`${apiUrl}/api/upload/upload`, {
                 method: 'POST',
                 body: formData
             });

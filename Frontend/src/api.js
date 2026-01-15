@@ -13,12 +13,14 @@ export const apiCall = async (endpoint, options = {}) => {
       ...options,
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || `API error: ${response.status}`);
+      console.error(`API Error Response:`, data);
+      throw new Error(data.error || `API error: ${response.status}`);
     }
 
-    return await response.json();
+    return data;
   } catch (err) {
     console.error(`API call failed: ${endpoint}`, err);
     throw err;

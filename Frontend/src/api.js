@@ -1,7 +1,5 @@
-// API utility for making requests to serverless functions
-// Uses relative paths for Vercel deployment
-
-const API_BASE = '/api';
+// API utility for making requests to backend
+const API_BASE = 'http://localhost:5000/api';
 
 export const apiCall = async (endpoint, options = {}) => {
   const url = `${API_BASE}${endpoint}`;
@@ -29,22 +27,22 @@ export const apiCall = async (endpoint, options = {}) => {
 
 // Auth endpoints
 export const authAPI = {
-  register: (data) => apiCall('/auth?action=register', {
+  register: (data) => apiCall('/auth/register', {
     method: 'POST',
     body: JSON.stringify(data),
   }),
   
-  login: (data) => apiCall('/auth?action=login', {
+  login: (data) => apiCall('/auth/login', {
     method: 'POST',
     body: JSON.stringify(data),
   }),
   
-  verify: (token) => apiCall('/auth?action=verify', {
+  verify: (token) => apiCall('/auth/verify', {
     method: 'POST',
     body: JSON.stringify({ token }),
   }),
   
-  google: (token) => apiCall('/auth?action=google', {
+  google: (token) => apiCall('/auth/google', {
     method: 'POST',
     body: JSON.stringify({ token }),
   }),
@@ -52,7 +50,7 @@ export const authAPI = {
 
 // Chat endpoints
 export const chatAPI = {
-  sendMessage: (threadId, message, authToken) => apiCall('/chat?action=send', {
+  sendMessage: (threadId, message, authToken) => apiCall('/chat', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${authToken}`,
@@ -60,7 +58,7 @@ export const chatAPI = {
     body: JSON.stringify({ threadId, message }),
   }),
   
-  generate: (threadId, message, authToken) => apiCall('/chat?action=generate', {
+  generate: (threadId, message, authToken) => apiCall('/chat/generate', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${authToken}`,
@@ -68,21 +66,21 @@ export const chatAPI = {
     body: JSON.stringify({ threadId, message }),
   }),
   
-  getThreads: (authToken) => apiCall('/chat?action=threads', {
+  getThreads: (authToken) => apiCall('/chat/thread', {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${authToken}`,
     },
   }),
   
-  getThread: (threadId, authToken) => apiCall(`/chat?action=thread&threadId=${threadId}`, {
+  getThread: (threadId, authToken) => apiCall(`/chat/thread/${threadId}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${authToken}`,
     },
   }),
   
-  deleteThread: (threadId, authToken) => apiCall(`/chat?action=delete&threadId=${threadId}`, {
+  deleteThread: (threadId, authToken) => apiCall(`/chat/thread/${threadId}`, {
     method: 'DELETE',
     headers: {
       'Authorization': `Bearer ${authToken}`,

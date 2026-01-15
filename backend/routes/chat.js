@@ -23,10 +23,13 @@ const verifyToken = (req, res, next) => {
 };
 
 router.post("/", verifyToken, async(req, res) => {
+   console.log("🔵 POST /chat called");
+   console.log("📨 Full request body:", JSON.stringify(req.body));
+   
    const { threadId, message } = req.body;
    const userId = req.userId;
    
-   console.log("📨 Chat request received:", { threadId, message, userId, body: req.body });
+   console.log("📨 Chat request received:", { threadId, message, userId });
    
    if (!threadId || !message) {
     return res.status(400).json({ error: "missing required fields", received: { threadId, message } });

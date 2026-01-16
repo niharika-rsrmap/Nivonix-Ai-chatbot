@@ -1,5 +1,5 @@
 // API utility for making requests to backend
-const API_BASE = 'https://nivonix-ai.onrender.com/api';
+const API_BASE = 'https://nivonix-ai-chatbot-1.onrender.com/api';
 
 export const apiCall = async (endpoint, options = {}) => {
   const url = `${API_BASE}${endpoint}`;

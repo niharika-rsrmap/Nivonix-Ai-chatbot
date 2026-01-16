@@ -1,5 +1,5 @@
 // API utility for making requests to backend
-const API_BASE = 'https://nivonix-ai-chatbot-1.onrender.com/api';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://nivonix-ai-chatbot-1.onrender.com';
 
 export const apiCall = async (endpoint, options = {}) => {
   const url = `${API_BASE}${endpoint}`;

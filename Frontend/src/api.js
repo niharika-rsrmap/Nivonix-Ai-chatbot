@@ -37,22 +37,22 @@ export const apiCall = async (endpoint, options = {}) => {
 
 // Auth endpoints
 export const authAPI = {
-  register: (data) => apiCall('/auth/register', {
+  register: (data) => apiCall('/api/auth/register', {
     method: 'POST',
     body: JSON.stringify(data),
   }),
   
-  login: (data) => apiCall('/auth/login', {
+  login: (data) => apiCall('/api/auth/login', {
     method: 'POST',
     body: JSON.stringify(data),
   }),
   
-  verify: (token) => apiCall('/auth/verify', {
+  verify: (token) => apiCall('/api/auth/verify', {
     method: 'POST',
     body: JSON.stringify({ token }),
   }),
   
-  google: (token) => apiCall('/auth/google', {
+  google: (token) => apiCall('/api/auth/google', {
     method: 'POST',
     body: JSON.stringify({ token }),
   }),
@@ -60,7 +60,7 @@ export const authAPI = {
 
 // Chat endpoints
 export const chatAPI = {
-  sendMessage: (threadId, message, authToken) => apiCall('/chat', {
+  sendMessage: (threadId, message, authToken) => apiCall('/api/chat', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${authToken}`,
@@ -68,7 +68,7 @@ export const chatAPI = {
     body: JSON.stringify({ threadId, message }),
   }),
   
-  generate: (threadId, message, authToken) => apiCall('/chat/generate', {
+  generate: (threadId, message, authToken) => apiCall('/api/chat/generate', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${authToken}`,
@@ -76,21 +76,21 @@ export const chatAPI = {
     body: JSON.stringify({ threadId, message }),
   }),
   
-  getThreads: (authToken) => apiCall('/chat/thread', {
+  getThreads: (authToken) => apiCall('/api/chat/thread', {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${authToken}`,
     },
   }),
   
-  getThread: (threadId, authToken) => apiCall(`/chat/thread/${threadId}`, {
+  getThread: (threadId, authToken) => apiCall(`/api/chat/thread/${threadId}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${authToken}`,
     },
   }),
   
-  deleteThread: (threadId, authToken) => apiCall(`/chat/thread/${threadId}`, {
+  deleteThread: (threadId, authToken) => apiCall(`/api/chat/thread/${threadId}`, {
     method: 'DELETE',
     headers: {
       'Authorization': `Bearer ${authToken}`,
@@ -100,7 +100,7 @@ export const chatAPI = {
 
 // Upload endpoints
 export const uploadAPI = {
-  upload: (formData, authToken) => fetch(`${API_BASE}/upload`, {
+  upload: (formData, authToken) => fetch(`${API_BASE}/api/upload`, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${authToken}`,

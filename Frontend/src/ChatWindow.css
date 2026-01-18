@@ -43,6 +43,7 @@
   color: #000000;
 }
 
+/* Show hamburger menu only on mobile/tablet */
 @media (max-width: 768px) {
   .sidebar-toggle {
     display: flex;
@@ -445,6 +446,35 @@
 }
 
 /* Responsive Design - Mobile First Approach */
+
+/* LAPTOP/DESKTOP: Normal layout, sidebar always visible */
+@media (min-width: 769px) {
+  .chat-window {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+  }
+
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .chat-content {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0;
+  }
+
+  .chat-input-container {
+    position: sticky;
+    bottom: 0;
+    z-index: 50;
+  }
+}
+
+/* TABLET: Sidebar hidden by default, hamburger menu */
 @media (max-width: 768px) {
   .chat-window {
     height: 100vh;
@@ -455,9 +485,13 @@
   .navbar {
     padding: 0.8rem 1rem;
     flex-wrap: nowrap;
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
+    background: #f5f5f5;
+    border-bottom: 1px solid #d0d0d0;
   }
 
   .navbar-left {
@@ -479,22 +513,19 @@
     font-size: 0.75rem;
   }
 
-  .sidebar-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Center chat container on mobile */
+  /* Chat scrolls under navbar */
   .chat-content {
     padding: 1rem;
+    padding-top: 80px; /* Account for fixed navbar */
+    padding-bottom: 120px; /* Account for fixed input */
     max-width: 100%;
     margin: 0 auto;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    height: 100vh;
   }
 
-  /* Fixed input at bottom like WhatsApp */
+  /* Input fixed at bottom */
   .chat-input-container {
     padding: 1rem;
     position: fixed;
@@ -541,13 +572,9 @@
     height: 28px;
     font-size: 0.8rem;
   }
-
-  /* Add bottom padding to chat content to prevent overlap with fixed input */
-  .chat-content {
-    padding-bottom: 120px;
-  }
 }
 
+/* MOBILE: Full mobile optimization */
 @media (max-width: 480px) {
   .chat-window {
     height: 100vh;
@@ -558,6 +585,13 @@
   .navbar {
     padding: 0.6rem 0.8rem;
     gap: 0.4rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #f5f5f5;
+    border-bottom: 1px solid #d0d0d0;
   }
 
   .navbar-left {
@@ -582,15 +616,20 @@
     display: none;
   }
 
-  /* Optimize for small screens - reduce empty white space */
+  /* Chat scrolls under navbar - reduce empty white space */
   .chat-content {
     padding: 0.8rem;
-    padding-bottom: 140px;
+    padding-top: 70px; /* Account for fixed navbar */
+    padding-bottom: 140px; /* Account for fixed input */
     max-width: 100%;
     margin: 0;
+    height: 100vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
   }
 
-  /* WhatsApp-style fixed input */
+  /* Input fixed at bottom like WhatsApp */
   .chat-input-container {
     padding: 0.8rem;
     position: fixed;
@@ -670,12 +709,6 @@
 
   .fa-chevron-down {
     font-size: 0.7rem;
-  }
-
-  /* Smooth scrolling for messages */
-  .chat-content {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
   }
 }
 

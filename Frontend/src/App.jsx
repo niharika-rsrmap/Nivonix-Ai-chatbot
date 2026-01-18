@@ -18,7 +18,10 @@ function App() {
   const [newChat, setNewChat] = useState(true);
   const [allThreads, setAllThreads] = useState([]);
   const [darkMode, setDarkMode] = useState(true);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    // On mobile/tablet, sidebar should be collapsed by default
+    return window.innerWidth <= 768;
+  });
   const [user, setUser] = useState(null); // Start as null instead of Guest
   const [isTyping, setIsTyping] = useState(false);
   const [settings, setSettings] = useState({
@@ -130,6 +133,28 @@ function App() {
   useEffect(() => {
     document.body.className = darkMode ? 'dark-theme' : 'light-theme';
   }, [darkMode]);
+
+  // Handle screen resize to manage sidebar behavior
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        // On mobile/tablet, collapse sidebar
+        setSidebarCollapsed(true);
+      } else {
+        // On desktop, show sidebar
+        setSidebarCollapsed(false);
+      }
+    };
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Call once on mount
+    handleResize();
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || import.meta.env.REACT_APP_GOOGLE_CLIENT_ID;
 

@@ -87,9 +87,9 @@ function Sidebar() {
 
     return (
         <>
-            {/* Mobile overlay */}
+            {/* Mobile overlay - only show on mobile when sidebar is open */}
             <div 
-                className={`sidebar-overlay ${!sidebarCollapsed ? 'active' : ''}`}
+                className={`sidebar-overlay ${!sidebarCollapsed && window.innerWidth <= 768 ? 'active' : ''}`}
                 onClick={() => setSidebarCollapsed(true)}
             ></div>
             
@@ -154,8 +154,8 @@ function Sidebar() {
                                             key={idx}
                                             onClick={() => {
                                                 changeThread(thread.threadId);
-                                                // Auto-close sidebar on mobile after selecting thread
-                                                if (window.innerWidth <= 480) {
+                                                // Auto-close sidebar on mobile/tablet after selecting thread
+                                                if (window.innerWidth <= 768) {
                                                     setSidebarCollapsed(true);
                                                 }
                                             }}

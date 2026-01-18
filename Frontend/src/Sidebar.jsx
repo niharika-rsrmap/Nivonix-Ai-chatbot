@@ -86,119 +86,133 @@ function Sidebar() {
     };
 
     return (
-        <section className={`sidebar ${sidebarCollapsed ? 'collapsed' : 'open'}`}>
-            <div className="sidebar-header">
-                <div className="brand">
-                    <div className="logo-container">
-                        <div className="logo">
-                            <span className="logo-text">N</span>
+        <>
+            {/* Mobile overlay */}
+            <div 
+                className={`sidebar-overlay ${!sidebarCollapsed ? 'active' : ''}`}
+                onClick={() => setSidebarCollapsed(true)}
+            ></div>
+            
+            <section className={`sidebar ${sidebarCollapsed ? 'collapsed' : 'open'}`}>
+                <div className="sidebar-header">
+                    <div className="brand">
+                        <div className="logo-container">
+                            <div className="logo">
+                                <span className="logo-text">N</span>
+                            </div>
+                            {!sidebarCollapsed && <span className="brand-name">Nivonix</span>}
                         </div>
-                        {!sidebarCollapsed && <span className="brand-name">Nivonix</span>}
-                    </div>
-                    <button
-                        className="collapse-btn btn-ghost"
-                        onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                        title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-                    >
-                        <i className={`fas ${sidebarCollapsed ? 'fa-chevron-right' : 'fa-chevron-left'}`}></i>
-                    </button>
-                </div>
-
-                {!sidebarCollapsed && (
-                    <>
-                        <button className="new-chat-btn btn-primary" onClick={createNewChat}>
-                            <i className="fas fa-plus"></i>
-                            <span>New Chat</span>
+                        <button
+                            className="collapse-btn btn-ghost"
+                            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+                            title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                        >
+                            <i className={`fas ${sidebarCollapsed ? 'fa-chevron-right' : 'fa-chevron-left'}`}></i>
                         </button>
-
-                        <div className="search-container">
-                            <div className="search-box">
-                                <i className="fas fa-search"></i>
-                                <input
-                                    type="text"
-                                    placeholder="Search conversations..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input"
-                                />
-                            </div>
-                        </div>
-                    </>
-                )}
-            </div>
-
-            {!sidebarCollapsed && (
-                <div className="sidebar-content">
-                    <div className="history-section">
-                        <div className="section-header">
-                            <h3>Recent Chats</h3>
-                            <span className="chat-count">{filteredThreads.length}</span>
-                        </div>
-
-                        <ul className="history">
-                            {filteredThreads.length === 0 ? (
-                                <li className="empty-state">
-                                    <i className="fas fa-comments"></i>
-                                    <span>No conversations yet</span>
-                                </li>
-                            ) : (
-                                filteredThreads.map((thread, idx) => (
-                                    <li
-                                        key={idx}
-                                        onClick={() => changeThread(thread.threadId)}
-                                        className={`history-item ${thread.threadId === currThreadId ? 'active' : ''}`}
-                                    >
-                                        <div className="thread-info">
-                                            <div className="thread-title">{thread.title}</div>
-                                            <div className="thread-date">{formatDate(thread.updatedAt)}</div>
-                                        </div>
-                                        <button
-                                            className="delete-btn"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                deleteThread(thread.threadId);
-                                            }}
-                                            title="Delete conversation"
-                                        >
-                                            <i className="fas fa-trash"></i>
-                                        </button>
-                                    </li>
-                                ))
-                            )}
-                        </ul>
                     </div>
-                </div>
-            )}
 
-            <div className="sidebar-footer">
-                {!sidebarCollapsed && (
-                    <>
-                        <div className="user-profile">
-                            <div className="user-avatar">
-                                <span>{user?.name?.charAt(0).toUpperCase() || "?"}</span>
-                            </div>
-                            <div className="user-info">
-                                <div className="user-name">{user?.name || "Not logged in"}</div>
-                                <div className="user-email">{user?.email || "Please sign up"}</div>
-                            </div>
-                        </div>
-
-                        <div className="brand-footer">
-                            <p>Powered by <strong>Nivonix AI</strong></p>
-                            <button
-                                className="logout-btn btn-ghost"
-                                onClick={handleLogout}
-                                title="Sign out"
-                                style={{ width: '100%', marginTop: '0.5rem' }}
-                            >
-                                <i className="fas fa-sign-out-alt"></i>
-                                <span>Sign Out</span>
+                    {!sidebarCollapsed && (
+                        <>
+                            <button className="new-chat-btn btn-primary" onClick={createNewChat}>
+                                <i className="fas fa-plus"></i>
+                                <span>New Chat</span>
                             </button>
+
+                            <div className="search-container">
+                                <div className="search-box">
+                                    <i className="fas fa-search"></i>
+                                    <input
+                                        type="text"
+                                        placeholder="Search conversations..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="search-input"
+                                    />
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </div>
+
+                {!sidebarCollapsed && (
+                    <div className="sidebar-content">
+                        <div className="history-section">
+                            <div className="section-header">
+                                <h3>Recent Chats</h3>
+                                <span className="chat-count">{filteredThreads.length}</span>
+                            </div>
+
+                            <ul className="history">
+                                {filteredThreads.length === 0 ? (
+                                    <li className="empty-state">
+                                        <i className="fas fa-comments"></i>
+                                        <span>No conversations yet</span>
+                                    </li>
+                                ) : (
+                                    filteredThreads.map((thread, idx) => (
+                                        <li
+                                            key={idx}
+                                            onClick={() => {
+                                                changeThread(thread.threadId);
+                                                // Auto-close sidebar on mobile after selecting thread
+                                                if (window.innerWidth <= 480) {
+                                                    setSidebarCollapsed(true);
+                                                }
+                                            }}
+                                            className={`history-item ${thread.threadId === currThreadId ? 'active' : ''}`}
+                                        >
+                                            <div className="thread-info">
+                                                <div className="thread-title">{thread.title}</div>
+                                                <div className="thread-date">{formatDate(thread.updatedAt)}</div>
+                                            </div>
+                                            <button
+                                                className="delete-btn"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    deleteThread(thread.threadId);
+                                                }}
+                                                title="Delete conversation"
+                                            >
+                                                <i className="fas fa-trash"></i>
+                                            </button>
+                                        </li>
+                                    ))
+                                )}
+                            </ul>
                         </div>
-                    </>
+                    </div>
                 )}
-            </div>
-        </section>
+
+                <div className="sidebar-footer">
+                    {!sidebarCollapsed && (
+                        <>
+                            <div className="user-profile">
+                                <div className="user-avatar">
+                                    <span>{user?.name?.charAt(0).toUpperCase() || "?"}</span>
+                                </div>
+                                <div className="user-info">
+                                    <div className="user-name">{user?.name || "Not logged in"}</div>
+                                    <div className="user-email">{user?.email || "Please sign up"}</div>
+                                </div>
+                            </div>
+
+                            <div className="brand-footer">
+                                <p>Powered by <strong>Nivonix AI</strong></p>
+                                <button
+                                    className="logout-btn btn-ghost"
+                                    onClick={handleLogout}
+                                    title="Sign out"
+                                    style={{ width: '100%', marginTop: '0.5rem' }}
+                                >
+                                    <i className="fas fa-sign-out-alt"></i>
+                                    <span>Sign Out</span>
+                                </button>
+                            </div>
+                        </>
+                    )}
+                </div>
+            </section>
+        </>
     );
 }
 

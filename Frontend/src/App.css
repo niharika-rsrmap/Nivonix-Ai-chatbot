@@ -239,7 +239,9 @@ body {
 
 @media (max-width: 768px) {
   .app {
-    flex-direction: column;
+    flex-direction: row;
+    height: 100vh;
+    overflow: hidden;
   }
 
   html {
@@ -248,6 +250,7 @@ body {
 
   body {
     font-size: 0.95rem;
+    overflow: hidden;
   }
 
   .text-lg  { font-size: 1rem; }
@@ -258,7 +261,10 @@ body {
 
 @media (max-width: 480px) {
   .app {
-    flex-direction: column;
+    flex-direction: row;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
   }
 
   html {
@@ -267,6 +273,7 @@ body {
 
   body {
     font-size: 0.9rem;
+    overflow: hidden;
   }
 
   .text-lg  { font-size: 0.95rem; }

@@ -144,7 +144,7 @@
   font-size: 0.8rem;
 }
 
-/* Message Content Wrapper */
+/* Message Content Wrapper - Limit width to 85% on mobile */
 .message-content-wrapper {
   display: flex;
   align-items: flex-end;
@@ -154,7 +154,7 @@
 
 .message-group.user .message-content-wrapper {
   flex-direction: row-reverse;
-  max-width: 90%;
+  max-width: 85%;
 }
 
 /* Message Bubble */
@@ -395,13 +395,31 @@
   display: none;
 }
 
-/* Responsive Design */
+/* Responsive Design - Mobile Optimized */
 @media (max-width: 768px) {
-  .message-group {
-    padding: 0 0.8rem;
+  .chat-container {
+    height: 100%;
+    overflow: hidden;
   }
 
+  .messages-container {
+    padding: 1rem 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  .message-group {
+    padding: 0 0.8rem;
+    margin-bottom: 0.6rem;
+  }
+
+  /* Limit message width to 85% on mobile */
   .message-content-wrapper {
+    max-width: 85% !important;
+  }
+
+  .message-group.user .message-content-wrapper {
     max-width: 85% !important;
   }
 
@@ -435,16 +453,43 @@
 }
 
 @media (max-width: 480px) {
-  .message-group {
-    padding: 0 0.5rem;
+  .chat-container {
+    height: 100%;
+    overflow: hidden;
   }
 
+  .messages-container {
+    padding: 0.8rem 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  .message-group {
+    padding: 0 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Limit message width to 85% on mobile */
   .message-content-wrapper {
-    max-width: 90% !important;
+    max-width: 85% !important;
+  }
+
+  .message-group.user .message-content-wrapper {
+    max-width: 85% !important;
   }
 
   .message-bubble {
     padding: 0.5rem 0.7rem;
+    border-radius: 1rem;
+  }
+
+  .message-bubble.user {
+    border-radius: 1rem 0.3rem 1rem 1rem;
+  }
+
+  .message-bubble.assistant {
+    border-radius: 0.3rem 1rem 1rem 1rem;
   }
 
   .user-message {
@@ -477,6 +522,11 @@
 
   .empty-suggestions {
     grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .suggestion-item {
+    padding: 0.8rem 0.6rem;
   }
 
   .code-block-wrapper {
